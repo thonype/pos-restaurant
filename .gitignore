@@ -1,1 +1,7 @@
 .vercel
+
+# Firebase credentials
+firebase-service-account.json
+*.json
+.env
+.env.local
