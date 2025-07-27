@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS Restaurant - Iniciar Sesión</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 15px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .login-logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        
+        .login-subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        
+        .login-form {
+            text-align: left;
+        }
+        
+        .form-input {
+            margin-bottom: 1.5rem;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+        }
+        
+        .demo-credentials {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .demo-credentials h4 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-logo">🍽️ POS Restaurant</div>
+            <p class="login-subtitle">Sistema de Punto de Venta</p>
+            
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label class="form-label" for="email">Email:</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        class="form-input" 
+                        placeholder="tu@email.com"
+                        required
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="password">Contraseña:</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        class="form-input" 
+                        placeholder="Tu contraseña"
+                        required
+                    >
+                </div>
+                
+                <button type="submit" class="btn btn-primary login-btn" id="loginBtn">
+                    Iniciar Sesión
+                </button>
+            </form>
+            
+            <div class="demo-credentials">
+                <h4>Credenciales de prueba:</h4>
+                <p><strong>Admin:</strong> admin@restaurant.com / admin123</p>
+                <p><strong>Trabajador:</strong> worker@restaurant.com / worker123</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/api.js"></script>
+    <script>
+        // Verificar si ya está logueado
+        if (api.isAuthenticated()) {
+            const user = api.getCurrentUser();
+            if (user.role === 'admin') {
+                window.location.href = '/admin.html';
+            } else {
+                window.location.href = '/sales.html';
+            }
+        }
+        
+        // Manejar el formulario de login
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const loginBtn = document.getElementById('loginBtn');
+            
+            // Deshabilitar botón y mostrar loading
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Iniciando sesión...';
+            
+            try {
+                const response = await api.login(email, password);
+                
+                showAlert('¡Bienvenido! Redirigiendo...', 'success');
+                
+                // Redireccionar según el rol
+                setTimeout(() => {
+                    if (response.user.role === 'admin') {
+                        window.location.href = '/admin.html';
+                    } else {
+                        window.location.href = '/sales.html';
+                    }
+                }, 1000);
+                
+            } catch (error) {
+                showAlert(error.message || 'Error al iniciar sesión', 'error');
+                
+                // Rehabilitar botón
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Iniciar Sesión';
+            }
+        });
+        
+        // Función para llenar credenciales de demo
+        function fillDemoCredentials(type) {
+            if (type === 'admin') {
+                document.getElementById('email').value = 'admin@restaurant.com';
+                document.getElementById('password').value = 'admin123';
+            } else {
+                document.getElementById('email').value = 'worker@restaurant.com';
+                document.getElementById('password').value = 'worker123';
+            }
+        }
+        
+        // Agregar eventos para llenar credenciales de demo
+        document.addEventListener('DOMContentLoaded', () => {
+            const demoCredentials = document.querySelector('.demo-credentials');
+            demoCredentials.addEventListener('click', (e) => {
+                if (e.target.textContent.includes('admin@restaurant.com')) {
+                    fillDemoCredentials('admin');
+                } else if (e.target.textContent.includes('worker@restaurant.com')) {
+                    fillDemoCredentials('worker');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

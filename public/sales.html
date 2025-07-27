@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS Restaurant - Panel de Ventas</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">🍽️ POS Restaurant</div>
+            <div class="user-info">
+                <span id="userWelcome">Cargando...</span>
+                <button class="logout-btn" onclick="api.logout()">Cerrar Sesión</button>
+            </div>
+        </header>
+        
+        <!-- Main Content -->
+        <div class="grid grid-2">
+            <!-- Panel de Productos -->
+            <div class="card">
+                <h2 class="card-title">📋 Productos Disponibles</h2>
+                <div class="products-grid" id="productsGrid">
+                    <!-- Los productos se cargarán aquí -->
+                </div>
+            </div>
+            
+            <!-- Panel de Carrito -->
+            <div class="card">
+                <h2 class="card-title">🛒 Carrito de Compras</h2>
+                <div class="cart" id="cart">
+                    <p class="text-center">No hay productos en el carrito</p>
+                </div>
+                
+                <div class="cart-total" id="cartTotal">
+                    Total: $0
+                </div>
+                
+                <button class="btn btn-success" style="width: 100%; margin-top: 1rem;" id="processBtn" onclick="processSale()" disabled>
+                    💳 Procesar Venta
+                </button>
+                
+                <button class="btn btn-secondary" style="width: 100%; margin-top: 0.5rem;" onclick="clearCart()">
+                    🗑️ Limpiar Carrito
+                </button>
+            </div>
+        </div>
+        
+        <!-- Historial de Ventas del Día -->
+        <div class="card">
+            <h2 class="card-title">📊 Mis Ventas de Hoy</h2>
+            <div id="salesHistory">
+                <!-- El historial se cargará aquí -->
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/api.js"></script>
+    <script src="js/sales.js"></script>
+</body>
+</html>

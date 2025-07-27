@@ -1,0 +1,22 @@
+🏪 SISTEMA POS - RESTAURANTE DEMO
+
+👑 PANEL ADMINISTRADOR (Dueño):
+https://tu-dominio.com/admin.html
+Usuario: admin@restaurant.com
+Contraseña: admin123
+
+🍽️ PANEL MESEROS (Tablets):
+https://tu-dominio.com/sales.html
+Usuario: worker@restaurant.com
+Contraseña: worker123
+
+📱 ACCESO MÓVIL:
+✅ Funciona en teléfonos
+✅ Funciona en tablets
+✅ Funciona en computadoras
+
+🎯 BENEFICIOS:
+✅ Control total de ventas
+✅ Reportes automáticos
+✅ Sin errores de cálculo
+✅ Inventario en tiempo real
